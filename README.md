@@ -89,6 +89,40 @@ Pour verifier que tout fonctionne sans attendre longtemps :
 .venv/bin/python scripts/train_plantar_model.py
 ```
 
+Cette commande correspond a la meilleure configuration que nous avons gardee pour le TD :
+
+```text
+mode              = event
+split             = random Train / Validation / Test
+train / val / test= 70% / 15% / 15%
+model             = MLPClassifier
+hidden_layers     = 256,128
+epochs            = 80
+batch_size        = 64
+learning_rate     = 0.001
+alpha             = 0.0001
+patience          = 12
+random_state      = 42
+```
+
+Commande equivalente explicite :
+
+```bash
+.venv/bin/python scripts/train_plantar_model.py \
+  --mode event \
+  --split random \
+  --model mlp \
+  --hidden-layers 256,128 \
+  --epochs 80 \
+  --batch-size 64 \
+  --learning-rate 0.001 \
+  --alpha 0.0001 \
+  --patience 12 \
+  --val-size 0.15 \
+  --test-size 0.15 \
+  --random-state 42
+```
+
 Le script genere dans `outputs/` :
 
 - `plantar_activity_model.joblib`
@@ -96,7 +130,22 @@ Le script genere dans `outputs/` :
 - `plantar_activity_model_metrics.json`
 - `plantar_activity_model_test_predictions.csv`
 
-Sur le split aleatoire unique utilise pendant le TD, le score attendu est autour de `78%` d'accuracy test.
+Resultat observe avec cette configuration :
+
+```text
+samples              = 10 204
+features             = 852
+classes              = 31
+train / val / test   = 7 142 / 1 531 / 1 531
+best_epoch           = 21
+best_val_accuracy    = 0.788
+test_accuracy        = 0.781
+balanced_accuracy    = 0.781
+```
+
+Le diagnostic signale un risque d'overfitting : la train accuracy monte tres haut (`0.999`) alors que la validation plafonne autour de `0.788`. L'early stopping garde donc le meilleur epoch validation, puis le test final reste coherent avec la validation (`0.781`).
+
+Ce score est un resultat de split aleatoire unique, utile pour le TD et pour viser environ `80%`. Pour une evaluation plus exigeante, utiliser le split par sujet ci-dessous.
 
 ## Evaluation plus stricte
 
@@ -130,4 +179,3 @@ Puis verifier les donnees :
 - Ne pas committer les dossiers de donnees brutes.
 - Ne pas choisir le modele final avec le test set.
 - Utiliser la validation pendant l'entrainement, puis le test uniquement a la fin.
-
