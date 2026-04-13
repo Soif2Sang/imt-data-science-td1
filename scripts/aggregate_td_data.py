@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Aggregate the TD1 plantar and event data into unified CSV exports."""
+"""Aggregate the TD1 reference plantar and event data into unified CSV exports."""
 
 from __future__ import annotations
 
@@ -81,19 +81,24 @@ into two flat CSV files that are easier to open in pandas or similar tools.
     parser.add_argument(
         "--root",
         type=Path,
-        default=Path(__file__).resolve().parent,
-        help="root of the TD1 dataset (contains Events/ and Plantar_activity/)",
+        default=Path(__file__).resolve().parents[1],
+        help="root of the TD1 dataset (contains Events/ and Plantar_activity_reference/)",
+    )
+    parser.add_argument(
+        "--insoles-dataset",
+        default="Plantar_activity_reference",
+        help="directory name for plantar insole data",
     )
     parser.add_argument(
         "--insoles-output",
         type=Path,
-        default=Path("insoles.csv"),
-        help="path for the merged plantar_activity data",
+        default=Path("outputs/insoles.csv"),
+        help="path for the merged plantar reference data",
     )
     parser.add_argument(
         "--classif-output",
         type=Path,
-        default=Path("classif.csv"),
+        default=Path("outputs/classif.csv"),
         help="path for the merged events annotations",
     )
     parser.add_argument(
@@ -117,7 +122,7 @@ def main() -> None:
     args = parse_args()
 
     insoles_df, insoles_stats, insoles_missing = collect_dataset(
-        args.root, "Plantar_activity", "insoles.csv", args.verbose
+        args.root, args.insoles_dataset, "insoles.csv", args.verbose
     )
     classif_df, classif_stats, classif_missing = collect_dataset(
         args.root, "Events", "classif.csv", args.verbose
@@ -133,7 +138,7 @@ def main() -> None:
     print(f"  {args.insoles_output}: {insoles_df.shape[0]} rows, {insoles_df.shape[1]} columns")
     print(f"  {args.classif_output}: {classif_df.shape[0]} rows, {classif_df.shape[1]} columns")
 
-    dump_summary("Plantar_activity", insoles_stats, insoles_missing)
+    dump_summary(args.insoles_dataset, insoles_stats, insoles_missing)
     dump_summary("Events", classif_stats, classif_missing)
 
 

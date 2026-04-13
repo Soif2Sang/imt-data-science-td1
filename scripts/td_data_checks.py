@@ -81,7 +81,7 @@ def main() -> None:
     insoles_path = args.root / "outputs" / "insoles.csv"
     classif_path = args.root / "outputs" / "classif.csv"
     if not insoles_path.exists() or not classif_path.exists():
-        print("Run aggregate_td_data.py first to create outputs/insoles.csv and outputs/classif.csv")
+        print("Run scripts/aggregate_td_data.py first to create outputs/insoles.csv and outputs/classif.csv")
         return
 
     insoles = pd.read_csv(insoles_path)

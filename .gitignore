@@ -1,0 +1,32 @@
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# macOS / editors
+.DS_Store
+.vscode/
+.idea/
+
+# Local data folders.
+# The dataset is large and should be placed locally, not committed by default.
+Events/
+Plantar_activity_reference/
+Plantar_activity/
+
+# Course PDFs can be kept locally, but are not required for running the project.
+cours/
+
+# Generated training outputs
+outputs/*
+!outputs/.gitkeep
+
+# Notebook runtime caches
+.ipynb_checkpoints/
+.matplotlib-cache/
