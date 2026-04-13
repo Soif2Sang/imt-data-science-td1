@@ -23,7 +23,6 @@ Plantar_activity_reference/
         └── insoles.csv
 ```
 
-Le dossier `Plantar_activity/` n'est pas necessaire pour ce repo.
+Le dossier `Plantar_activity/` n'est pas necessaire pour ce repo : les scripts utilisent `Plantar_activity_reference/`.
 
 Si vous partagez les donnees entre camarades, utilisez un lien externe ou une archive separee plutot qu'un commit Git.
-
